@@ -1,0 +1,17 @@
+.root {
+  width: 320px;
+  margin-right: 10px;
+
+
+  textarea {
+    width: 250px;
+    max-height: 70px;
+  }
+
+  :global {
+    .ant-typography-edit-content {
+      inset-inline-start: 0;
+      margin-top: 0;
+    }
+  }
+}

@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useState } from "react";
+import { List, Typography } from "antd";
+import { FunctionPanel } from "./components/FunctionPanel/FunctionPanel";
+import { Counter } from "components/Counter/Counter";
+import { Task } from "components/Task/Task";
+import { WrapperContainer } from "components/Wrapper/WrapperContainer";
+import { useAppSelector } from "store";
+import { selectTaskListData } from "selectors/taskList.selector";
+import classNames from "classnames";
 
-function App() {
+import styles from "./App.module.scss";
+
+export const App: FC = () => {
+  const data = useAppSelector(selectTaskListData);
+  const [description, setDescription] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WrapperContainer>
+      <Typography.Title level={4}>Todo List</Typography.Title>
+      <FunctionPanel description={description} setDescription={setDescription} />
+      <List
+        className={classNames(styles.listWrapper, { [styles.isEmptyData]: !data.length })}
+        dataSource={data}
+        renderItem={(item) => <Task {...item} />}
+      />
+      <Counter amount={data.length} />
+    </WrapperContainer>
   );
-}
-
-export default App;
+};
